@@ -10,13 +10,14 @@ class EnrollmentsController < ApplicationController
   end
 
   def new
+    @users = User.all - @course.users 
     @enrollment = @course.enrollments.new 
   end
 
   def create
     @enrollment = @course.enrollments.new(enrollment_params)
     if @enrollment.save
-      redirect_to course_enrollment_path(@course)
+      redirect_to course_enrollments_path(@course)
     else
       render :new
     end
@@ -30,7 +31,7 @@ class EnrollmentsController < ApplicationController
 
   def update
     if @enrollment.update(enrollment_params)
-      redirect_to course_enrollment_path(@course)
+      redirect_to course_enrollments_path(@course)
     else
       render :edit
     end
